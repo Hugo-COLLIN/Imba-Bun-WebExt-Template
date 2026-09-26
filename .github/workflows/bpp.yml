@@ -21,6 +21,8 @@ jobs:
       # --- SETUP ---
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -50,7 +52,7 @@ jobs:
 
       # --- STORE PUBLISH ---
       - name: Browser Platform Publish
-        uses: PlasmoHQ/bpp@v3
+        uses: PlasmoHQ/bpp@v3.8.0
         with:
           keys: ${{ secrets.BPP_KEYS }}
           chrome-file: releases/${{ steps.pkg.outputs.slug }}_${{ steps.pkg.outputs.version }}_chrome.zip
