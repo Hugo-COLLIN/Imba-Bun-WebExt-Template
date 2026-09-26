@@ -128,7 +128,7 @@ def buildManifest(browserName)
 
 	return { manifest, entries }
 
-def validateManifestKeys(manifest, browserName)
+export def validateManifestKeys(manifest, browserName)
 	for own key, value of manifest
 		continue if MANIFEST_KEYS.includes(key)
 		console.warn col('yellow', "⚠️  '{key}' is not a recognized WebExtension key; not added in the {browserName} manifest")
@@ -194,8 +194,11 @@ def readDir(dir)
 def packSourceZip
 	mkdirSync('releases', recursive: true)
 	const meta = readJson('app/metadata.json')
-	const name = slugify(meta.name or readJson('package.json').name or 'extension')
-	const version = meta.version or readJson('package.json').version or '0.0.0'
+	unless meta.name and meta.version
+		console.error col('red', "✗ app/metadata.json must define 'name' and 'version'")
+		process.exit(1)
+	const name = slugify(meta.name)
+	const version = meta.version
 
 	const files = {}
 	const ignoredRe = new RegExp("^({ignoredDirs.join('|')})")
