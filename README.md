@@ -2,7 +2,38 @@
 
 A minimal, dependency-light browser extension starter using Imba and Bun. No bundler, no framework boilerplate: a single build script compiles, packages, tests and prepares store-ready archives for Chrome and Firefox.
 
-## Project structure
+## Getting started
+
+#### 1. Prerequisites
+Install Bun: https://bun.com/
+
+#### 2. Create a project from this template
+Either:
+- **GitHub** (GH-linked repository clone): click "Use this template", "Create a new repository", then clone it and install dependencies (`bun install`)
+- **CLI** (auto-sufficient local folder): downloads the repo without its history, installs dependencies, initializes a fresh git repo
+```sh
+bun create Hugo-COLLIN/Imba-WebExt-Template my-extension
+```
+
+#### 3. Run the extension
+
+- Chrome-based browsers: Run `bun run dev`, then load `out/app/` in [chrome://extensions](chrome://extensions)
+
+- Firefox-based browsers: Run `bun run dev:firefox`, then load `out/app/` in [about:debugging](about:debugging)
+
+
+#### 4. Make it yours
+- Edit `app/metadata.json`: set your extension's `name`, `description` and Firefox `browser_specific_settings.gecko.id`
+- Replace the icons in `app/assets/icons/`
+- Edit the `.imba` files to create your extension
+
+#### 5. Publish your extension
+Before your first release: [configure the workflows](#setup-github-workflows)
+
+
+## Project overview
+
+### Structure
 
 - `app/` contains extension sources
 - `build.imba` contains the whole local pipeline: build, watch, test, pack.
@@ -12,12 +43,6 @@ A minimal, dependency-light browser extension starter using Imba and Bun. No bun
 - `out/` contains generated outputs (development and tests)
 - `releases/` contains generated zip archives ready to be published
 
-## Usage
-
-### Prerequisites
-1. Install Bun: https://bun.com/
-2. After cloning, install project dependencies: `bun install`.
-3. You need to [configure workflows](#setup-github-workflows) before using them.
 
 ### Commands
 
@@ -26,9 +51,9 @@ A minimal, dependency-light browser extension starter using Imba and Bun. No bun
 - `build[:firefox]`: single build
 - `pack[:firefox]`: production build and release zips
 - `release` pack for both chrome and firefox
-- `test[:watch]`: lauch (and watch) tests
+- `test[:watch]`: launch (and watch) tests
 - `build.imba [--flag]`: The previous commands are shortcuts for this program. Flags:
-    - Goal: `--test` (defaut: build)
+    - Goal: `--test` (default: build)
     - Refresh: `--watch` mode rebuilds everything on any change (default: one-time compilation)
     - Build target: `--chrome` or `--firefox` (default: chrome)
     - Build type: `--prod`, `--pack` (default: development)
@@ -37,7 +62,7 @@ A minimal, dependency-light browser extension starter using Imba and Bun. No bun
 
 In the `app/` folder, you can create and organize your project files:
 
-- When creating an entrypoint (`background.imba`, `popup/popup.imba`...), specify it in `metadata.json`. It is the single source of truth for the manifest: shared keys at the root, browser-specific overrides in `chrome` / `firefox` blocks, fallbacks to `package.json` (name, version, description). 
+- When creating an entrypoint (`background.imba`, `popup/popup.imba`...), specify it in `metadata.json`. It is the single source of truth for the manifest: shared keys at the root, browser-specific overrides in `chrome` / `firefox` blocks. 
 
     Keys referencing `.imba` files are entrypoints compiled to `.js` (background, content scripts), plus a minimal generated `.html` wrapper for pages.
 
