@@ -55,7 +55,7 @@ Before your first release: [configure the workflows](#setup-github-workflows)
 - `build.imba [--flag]`: The previous commands are shortcuts for this program. Flags:
     - Goal: `--test` (default: build)
     - Refresh: `--watch` mode rebuilds everything on any change (default: one-time compilation)
-    - Build target: `--chrome` or `--firefox` (default: chrome)
+    - Build target: `--firefox` (default: chrome)
     - Build type: `--prod`, `--pack` (default: development)
 
 ### Development
@@ -98,7 +98,7 @@ A failed `git push origin v<version>` in CI almost always means workflow permiss
 ### Setup GitHub workflows
 Prerequisite:
 - Enable **Settings => Actions => General => Workflow permissions => Read and write permissions** (if the repository is in an organization, the org policy may enforce read-only and must be adjusted there).
-- To create secrets via CLI: install `gh`locally and authenticate (or use the web interface: Settings => Secrets and variables => Actions)
+- To create secrets via CLI: install `gh` locally and authenticate (or use the web interface: Settings => Secrets and variables => Actions)
 
 #### Browser Platform Publish
 

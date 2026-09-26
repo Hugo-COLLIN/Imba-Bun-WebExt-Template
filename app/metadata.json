@@ -51,7 +51,7 @@
     },
     "browser_specific_settings": {
       "gecko": {
-        "id": "myextension@example.com",
+        "id": "myextension@yourdomain.com",
         "strict_min_version": "109.0"
       }
     }
