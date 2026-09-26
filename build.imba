@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Hugo COLLIN
 import { execSync, spawn } from 'child_process'
 import { writeFileSync, rmSync, mkdirSync, existsSync, readFileSync, cpSync, readdirSync, watch as fsWatch, statSync } from 'fs'
 import { dirname, join } from 'path'

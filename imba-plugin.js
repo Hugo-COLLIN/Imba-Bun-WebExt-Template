@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Hugo COLLIN
 // Minimal Imba loader for Bun, vendored from bimba-cli (MIT).
 // bunfig.toml preloads this file so Bun can run build.imba itself.
 import { plugin } from 'bun'
