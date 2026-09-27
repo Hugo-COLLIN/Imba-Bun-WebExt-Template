@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'bun:test'
 import { execSync } from 'child_process'
-import { existsSync, readFileSync, readdirSync } from 'fs'
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'fs'
 import { slugify } from '../../build.js'
 
 # Integration tests: each spawns a full `bun run build.imba` run.
@@ -75,3 +75,31 @@ describe "Build integration" do
 			execSync('bun run build.imba', stdio: 'pipe')
 			expect(existsSync('out/app/assets')).toBe(true)
 			expect(readdirSync('out/app/assets').length > 0).toBe(true)
+
+	test "options_ui-only metadata: page rewritten + files produced (leftover from walkManifest page branch)" do
+		const saved = readFileSync('app/metadata.json', 'utf8')
+		try
+			writeFileSync('app/metadata.json', JSON.stringify({
+				name: 'options-only-fixture'
+				version: '0.0.1'
+				options_ui:
+					page: 'ui/options.imba'
+				chrome:
+					manifest_version: 3
+				firefox:
+					manifest_version: 2
+					browser_specific_settings:
+						gecko:
+							id: 'fixture@test.local'
+			}))
+			execSync('bun run build.imba', stdio: 'pipe')
+			const manifest = readManifest!
+			expect(manifest.options_ui..page).toBe('ui/options.html')
+			expect(existsSync('out/app/ui/options.html')).toBe(true)
+			expect(existsSync('out/app/ui/options.js')).toBe(true)
+			const html = readFileSync('out/app/ui/options.html', 'utf8')
+			expect(html.includes('<script type="module" src="./options.js">')).toBe(true)
+			expect(manifest.background).toBeUndefined()
+		finally
+			writeFileSync('app/metadata.json', saved)
+			execSync('bun run build.imba', stdio: 'pipe')

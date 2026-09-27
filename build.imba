@@ -80,7 +80,7 @@ export def smartMerge(target, source)
 # Remove null / undefined / empty-object keys (recursive)
 export def cleanEmptyProperties(obj)
 	for own key, value of obj
-		if value == null
+		if value == null and obj !== undefined
 			delete obj[key]
 		elif value isa Object and !Array.isArray(value)
 			cleanEmptyProperties(value)
@@ -292,6 +292,7 @@ def runBuild
 			await Bun.build(
 				entrypoints: jsEntries.map do(e) e.source
 				outdir: APP_DIR
+				root: 'app'      # output paths always relative to app/, even with a single entrypoint
 				target: 'browser'
 				minify: minify
 				sourcemap: sourcemap
