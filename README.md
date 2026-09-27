@@ -12,7 +12,7 @@ Either:
 - **GitHub** (GH-linked repository clone): click "Use this template", "Create a new repository", then clone it and install dependencies (`bun install`)
 - **CLI** (auto-sufficient local folder): downloads the repo without its history, installs dependencies, initializes a fresh git repo
 ```sh
-bun create Hugo-COLLIN/Imba-WebExt-Template my-extension
+bun create Hugo-COLLIN/Imba-Bun-WebExt-Template my-extension
 ```
 
 #### 3. Run the extension
@@ -26,9 +26,12 @@ bun create Hugo-COLLIN/Imba-WebExt-Template my-extension
 - Edit `app/metadata.json`: set your extension's `name`, `description` and Firefox `browser_specific_settings.gecko.id`
 - Replace the icons in `app/assets/icons/`
 - Edit the `.imba` files to create your extension
+- Every time you make a change, reload your extension in [chrome://extensions](chrome://extensions) / [about:debugging](about:debugging); restart watch mode when you add an `.imba` file
 
 #### 5. Publish your extension
-Before your first release: [configure the workflows](#setup-github-workflows)
+Before your first release: 
+1. Create accounts on the browser stores on which you want to publish 
+2. [Configure the workflows](#setup-github-workflows)
 
 
 ## Project overview
