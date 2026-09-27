@@ -100,6 +100,12 @@ export def walkManifest(node, entries, kind = null)
 				entries.push({ output: "{name}.html", content: pageHtml("{name}.js") })
 				return "{name}.html"
 			return "{name}.js"
+		if node.endsWith('.js') 
+			if existsSync("app/{node}")
+				entries.push({ source: "app/{node}", output: node })   # plain JS: bundled as-is
+				return node
+			else
+				console.warn col('yellow', "app/{node} referenced in metadata.json is not found; skipping its compilation")
 		return node
 	if Array.isArray(node)
 		return node.map do(v) walkManifest(v, entries, kind)
