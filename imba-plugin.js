@@ -36,7 +36,21 @@ export const imbaPlugin = {
 				out = { js: '', errors: [err] }
 			}
 			if (out.errors?.length) {
-				for (const e of out.errors) if (e) console.error(e.message)
+				for (const e of out.errors) {
+					if (!e) continue
+					const native = typeof e.toError === 'function' ? e.toError()
+						: typeof e.toNativeError === 'function' ? e.toNativeError()
+							: null
+					if (native) {
+						console.error(native.stack || `${path}:${native.lineNumber}:${(native.columnNumber ?? 0) + 1}\n${native.message}`)
+					} else if (typeof e.toSnippet === 'function') {
+						console.error(e.toSnippet())
+					} else if (typeof e.excerpt === 'function') {
+						console.error(e.excerpt({ colors: true }))
+					} else {
+						console.error(`${path}:${e.line ?? '?'}  ${e.message ?? String(e)}`)
+					}
+				}
 				throw new Error(`imba compile failed: ${path}`)
 			}
 			return { contents: out.js, loader: 'js' }

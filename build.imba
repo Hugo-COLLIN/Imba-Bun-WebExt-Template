@@ -45,6 +45,20 @@ def debounce(fn, ms)
 		clearTimeout(timer) if timer
 		timer = setTimeout(fn, ms)
 
+# Report one compiler diagnostic with as much location context as it carries
+def reportImbaError(e, source)
+	console.error col('red', "✗ {source}")
+	if typeof e.toError == 'function' or typeof e.toNativeError == 'function'
+		const native = typeof e.toError == 'function' ? e.toError() : e.toNativeError()
+		# native.stack is the full excerpt (message and numbered lines)
+		console.error native.stack or native.message
+	elif typeof e.toSnippet == 'function'
+		console.error e.toSnippet()
+	elif typeof e.excerpt == 'function'
+		console.error e.excerpt(colors: true)
+	else
+		console.error e.message or String(e)
+
 # Portable recursive watch: register one watcher per directory under path
 # (the recursive option of fs.watch is not working on Linux)
 # Note: a subfolder created during the watch session won't be monitored
@@ -167,12 +181,12 @@ def compileTestFile(source)
 		)
 		if out.errors and out.errors.length > 0
 			for e of out.errors
-				console.error "  {e.message}" if e
+				reportImbaError(e, source) if e
 			return false
 		writeFileSync(dest, String(out.js))
 		return true
 	catch err
-		console.error col('red', "✗ {source}: {err.message}")
+		reportImbaError(err, source)
 		return false
 
 def transpileAll(files)
