@@ -188,5 +188,7 @@ gh secret set DISCUSSION_CATEGORY_ID --body "DIC_..."   # discussionCategories.n
 
 ## Credits
 Copyright (c) 2026 Hugo COLLIN
+
 Released under the [MIT License](LICENSE).
+
 SPDX-License-Identifier: MIT
