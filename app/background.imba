@@ -1,6 +1,10 @@
 import browser from 'webextension-polyfill'
 
-console.log "🚀 Background script loaded"
+# Debug logs removed in the prod build
+def devlog(...args)
+	console.log(...args) if globalThis.__DEV__
+
+devlog "🚀 Background script loaded"
 
 # Manage installation
 if browser.runtime.onInstalled

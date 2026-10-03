@@ -311,6 +311,7 @@ def runBuild
 				minify: minify
 				sourcemap: sourcemap
 				plugins: [imbaPlugin]
+				define: { "globalThis.__DEV__": prodMode ? "false" : "true" } # Variable that can be used in the application
 			)
 
 		for e of entries
