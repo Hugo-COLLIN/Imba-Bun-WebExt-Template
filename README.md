@@ -185,3 +185,8 @@ query {
 gh secret set DISCUSSION_REPOSITORY_ID --body "R_kg..." # repository.id
 gh secret set DISCUSSION_CATEGORY_ID --body "DIC_..."   # discussionCategories.nodes[*].id
 ```
+
+## Credits
+Copyright (c) 2026 Hugo COLLIN
+Released under the [MIT License](LICENSE).
+SPDX-License-Identifier: MIT
