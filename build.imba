@@ -183,7 +183,11 @@ def compileTestFile(source)
 			for e of out.errors
 				reportImbaError(e, source) if e
 			return false
-		writeFileSync(dest, String(out.js))
+		# --- Fix : rewrite .imba -> .js in relative imports for Bun resolution ---
+		let js = String(out.js)
+		js = js.replace(/from '(\.[^']+)\.imba'/g, "from '$1.js'")
+		js = js.replace(/from "(\.[^"]+)\.imba"/g, 'from "$1.js"')
+		writeFileSync(dest, js)
 		return true
 	catch err
 		reportImbaError(err, source)
@@ -311,7 +315,6 @@ def runBuild
 				minify: minify
 				sourcemap: sourcemap
 				plugins: [imbaPlugin]
-				define: { "globalThis.__DEV__": prodMode ? "false" : "true" } # Variable that can be used in the application
 			)
 
 		for e of entries
